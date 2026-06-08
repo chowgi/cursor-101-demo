@@ -31,8 +31,13 @@ export const DeleteDiscussion = ({ id }: DeleteDiscussionProps) => {
         title="Delete Discussion"
         body="Are you sure you want to delete this discussion?"
         triggerButton={
-          <Button variant="destructive" icon={<Trash className="size-4" />}>
-            Delete Discussion
+          <Button
+            variant="ghost"
+            size="sm"
+            className="px-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
+          >
+            <Trash className="size-3.5" aria-hidden="true" />
+            <span className="sr-only">Delete Discussion</span>
           </Button>
         }
         confirmButton={
