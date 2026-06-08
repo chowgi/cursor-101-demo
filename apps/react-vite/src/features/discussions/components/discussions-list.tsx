@@ -48,6 +48,13 @@ export const DiscussionsList = ({
           field: 'title',
         },
         {
+          title: 'Priority',
+          field: 'priority',
+          Cell({ entry: { priority } }) {
+            return <span aria-label={`Priority: ${priority}`}>{priority}</span>;
+          },
+        },
+        {
           title: 'Created At',
           field: 'createdAt',
           Cell({ entry: { createdAt } }) {

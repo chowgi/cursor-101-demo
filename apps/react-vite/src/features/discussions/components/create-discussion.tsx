@@ -1,7 +1,13 @@
 import { Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
+import {
+  Form,
+  FormDrawer,
+  Input,
+  Select,
+  Textarea,
+} from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization, ROLES } from '@/lib/authorization';
 
@@ -9,6 +15,10 @@ import {
   createDiscussionInputSchema,
   useCreateDiscussion,
 } from '../api/create-discussion';
+import {
+  DEFAULT_DISCUSSION_PRIORITY,
+  DISCUSSION_PRIORITY_OPTIONS,
+} from '../constants';
 
 export const CreateDiscussion = () => {
   const { addNotification } = useNotifications();
@@ -63,6 +73,14 @@ export const CreateDiscussion = () => {
                 label="Body"
                 error={formState.errors['body']}
                 registration={register('body')}
+              />
+
+              <Select
+                label="Priority"
+                error={formState.errors['priority']}
+                registration={register('priority')}
+                defaultValue={DEFAULT_DISCUSSION_PRIORITY}
+                options={DISCUSSION_PRIORITY_OPTIONS}
               />
             </>
           )}

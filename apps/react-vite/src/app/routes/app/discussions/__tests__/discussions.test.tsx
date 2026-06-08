@@ -55,7 +55,7 @@ test(
     const row = await screen.findByRole(
       'row',
       {
-        name: `${newDiscussion.title} ${formatDate(newDiscussion.createdAt)} View Delete Discussion`,
+        name: `${newDiscussion.title} Priority: ${newDiscussion.priority} ${formatDate(newDiscussion.createdAt)} View Delete Discussion`,
       },
       { timeout: 5000 },
     );
@@ -63,6 +63,12 @@ test(
     expect(
       within(row).getByRole('cell', {
         name: newDiscussion.title,
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      within(row).getByRole('cell', {
+        name: `Priority: ${newDiscussion.priority}`,
       }),
     ).toBeInTheDocument();
 
