@@ -32,6 +32,33 @@ const renderDiscussion = async () => {
 test('should render discussion', async () => {
   const { fakeDiscussion } = await renderDiscussion();
   expect(screen.getByText(fakeDiscussion.body)).toBeInTheDocument();
+  expect(screen.getByLabelText('Priority: Medium')).toBeInTheDocument();
+});
+
+test('should update discussion priority', async () => {
+  await renderDiscussion();
+
+  await userEvent.click(
+    screen.getByRole('button', { name: /update discussion/i }),
+  );
+
+  const drawer = await screen.findByRole('dialog', {
+    name: /update discussion/i,
+  });
+
+  const priorityField = within(drawer).getByLabelText(/priority/i);
+  await userEvent.selectOptions(priorityField, 'HIGH');
+
+  const submitButton = within(drawer).getByRole('button', {
+    name: /submit/i,
+  });
+
+  await userEvent.click(submitButton);
+
+  await waitFor(() => expect(drawer).not.toBeInTheDocument());
+
+  expect(await screen.findByLabelText('Priority: High')).toBeInTheDocument();
+  expect(screen.getByLabelText('Priority: High')).toHaveTextContent('High');
 });
 
 test('should update discussion', async () => {

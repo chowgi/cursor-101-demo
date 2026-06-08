@@ -8,7 +8,6 @@ import {
   waitFor,
   within,
 } from '@/testing/test-utils';
-import { formatDate } from '@/utils/format';
 
 import { default as DiscussionsRoute } from '../discussions';
 
@@ -55,10 +54,14 @@ test(
     const row = await screen.findByRole(
       'row',
       {
-        name: `${newDiscussion.title} ${formatDate(newDiscussion.createdAt)} View Delete Discussion`,
+        name: new RegExp(
+          `${newDiscussion.title}.*Priority: Medium.*View.*Delete Discussion`,
+        ),
       },
       { timeout: 5000 },
     );
+
+    expect(within(row).getByLabelText('Priority: Medium')).toBeInTheDocument();
 
     expect(
       within(row).getByRole('cell', {

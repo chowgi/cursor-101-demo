@@ -1,7 +1,13 @@
 import { Pen } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
+import {
+  Form,
+  FormDrawer,
+  Input,
+  Select,
+  Textarea,
+} from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization, ROLES } from '@/lib/authorization';
 
@@ -64,6 +70,7 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
             defaultValues: {
               title: discussion?.title ?? '',
               body: discussion?.body ?? '',
+              priority: discussion?.priority ?? 'MEDIUM',
             },
           }}
           schema={updateDiscussionInputSchema}
@@ -74,6 +81,17 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
                 label="Title"
                 error={formState.errors['title']}
                 registration={register('title')}
+              />
+              <Select
+                label="Priority"
+                error={formState.errors['priority']}
+                registration={register('priority')}
+                options={[
+                  { label: 'Low', value: 'LOW' },
+                  { label: 'Medium', value: 'MEDIUM' },
+                  { label: 'High', value: 'HIGH' },
+                ]}
+                defaultValue={discussion?.priority ?? 'MEDIUM'}
               />
               <Textarea
                 label="Body"

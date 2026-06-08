@@ -5,7 +5,13 @@ import { formatDate } from '@/utils/format';
 import { useDiscussion } from '../api/get-discussion';
 import { UpdateDiscussion } from '../components/update-discussion';
 
-export const DiscussionView = ({ discussionId }: { discussionId: string }) => {
+import { DiscussionPriorityBadge } from './discussion-priority-badge';
+
+export interface DiscussionViewProps {
+  discussionId: string;
+}
+
+export const DiscussionView = ({ discussionId }: DiscussionViewProps) => {
   const discussionQuery = useDiscussion({
     discussionId,
   });
@@ -24,14 +30,17 @@ export const DiscussionView = ({ discussionId }: { discussionId: string }) => {
 
   return (
     <div>
-      <span className="text-xs font-bold">
-        {formatDate(discussion.createdAt)}
-      </span>
-      {discussion.author && (
-        <span className="ml-2 text-sm font-bold">
-          by {discussion.author.firstName} {discussion.author.lastName}
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-xs font-bold">
+          {formatDate(discussion.createdAt)}
         </span>
-      )}
+        {discussion.author && (
+          <span className="text-sm font-bold">
+            by {discussion.author.firstName} {discussion.author.lastName}
+          </span>
+        )}
+        <DiscussionPriorityBadge priority={discussion.priority} />
+      </div>
       <div className="mt-6 flex flex-col space-y-16">
         <div className="flex justify-end">
           <UpdateDiscussion discussionId={discussionId} />
