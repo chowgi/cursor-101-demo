@@ -32,10 +32,20 @@ const PRIORITY_CONFIG: Record<
   },
 };
 
+const normalizePriority = (
+  priority?: DiscussionPriority | string,
+): DiscussionPriority => {
+  if (priority === 'LOW' || priority === 'MEDIUM' || priority === 'HIGH') {
+    return priority;
+  }
+
+  return 'MEDIUM';
+};
+
 export const DiscussionPriorityBadge = ({
   priority,
 }: DiscussionPriorityBadgeProps) => {
-  const resolvedPriority = priority ?? 'MEDIUM';
+  const resolvedPriority = normalizePriority(priority);
   const config = PRIORITY_CONFIG[resolvedPriority];
   const Icon = config.icon;
 

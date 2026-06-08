@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
+import { DiscussionPriority } from '@/types/api';
+
 import { DiscussionPriorityBadge } from '../discussion-priority-badge';
 
 describe('DiscussionPriorityBadge', () => {
@@ -25,6 +27,14 @@ describe('DiscussionPriorityBadge', () => {
 
   it('defaults to medium when priority is missing', () => {
     render(<DiscussionPriorityBadge />);
+
+    expect(screen.getByLabelText('Priority: Medium')).toHaveTextContent(
+      'Medium',
+    );
+  });
+
+  it('defaults to medium when priority is an empty string', () => {
+    render(<DiscussionPriorityBadge priority={'' as DiscussionPriority} />);
 
     expect(screen.getByLabelText('Priority: Medium')).toHaveTextContent(
       'Medium',

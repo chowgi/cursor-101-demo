@@ -17,6 +17,34 @@ type DiscussionBody = {
   priority?: DiscussionPriority;
 };
 
+const normalizeDiscussionPriority = (priority?: string): DiscussionPriority => {
+  if (priority === 'LOW' || priority === 'MEDIUM' || priority === 'HIGH') {
+    return priority;
+  }
+
+  return 'MEDIUM';
+};
+
+const withDiscussionAuthor = (discussion: {
+  authorId: string;
+  priority?: string;
+}) => {
+  const { authorId, ...rest } = discussion;
+  const author = db.user.findFirst({
+    where: {
+      id: {
+        equals: authorId,
+      },
+    },
+  });
+
+  return {
+    ...rest,
+    priority: normalizeDiscussionPriority(discussion.priority),
+    author: author ? sanitizeUser(author) : {},
+  };
+};
+
 export const discussionsHandlers = [
   http.get(`${env.API_URL}/discussions`, async ({ cookies, request }) => {
     await networkDelay();
@@ -51,19 +79,7 @@ export const discussionsHandlers = [
           take: 10,
           skip: 10 * (page - 1),
         })
-        .map(({ authorId, ...discussion }) => {
-          const author = db.user.findFirst({
-            where: {
-              id: {
-                equals: authorId,
-              },
-            },
-          });
-          return {
-            ...discussion,
-            author: author ? sanitizeUser(author) : {},
-          };
-        });
+        .map((discussion) => withDiscussionAuthor(discussion));
       return HttpResponse.json({
         data: result,
         meta: {
@@ -109,18 +125,7 @@ export const discussionsHandlers = [
           );
         }
 
-        const author = db.user.findFirst({
-          where: {
-            id: {
-              equals: discussion.authorId,
-            },
-          },
-        });
-
-        const result = {
-          ...discussion,
-          author: author ? sanitizeUser(author) : {},
-        };
+        const result = withDiscussionAuthor(discussion);
 
         return HttpResponse.json({ data: result });
       } catch (error: any) {
