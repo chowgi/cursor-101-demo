@@ -36,14 +36,11 @@ export type Team = Entity<{
   description: string;
 }>;
 
-export type DiscussionPriority = 'LOW' | 'MEDIUM' | 'HIGH';
-
 export type Discussion = Entity<{
   title: string;
   body: string;
   teamId: string;
   author: User;
-  priority: DiscussionPriority;
 }>;
 
 export type Comment = Entity<{

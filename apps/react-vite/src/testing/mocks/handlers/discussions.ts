@@ -13,7 +13,6 @@ import {
 type DiscussionBody = {
   title: string;
   body: string;
-  priority?: string;
 };
 
 export const discussionsHandlers = [
@@ -145,7 +144,6 @@ export const discussionsHandlers = [
         teamId: user?.teamId,
         authorId: user?.id,
         ...data,
-        priority: data.priority ?? 'MEDIUM',
       });
       await persistDb('discussion');
       return HttpResponse.json(result);
