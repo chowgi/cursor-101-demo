@@ -12,3 +12,10 @@ test.each([
   expect(screen.getByText(label)).toBeInTheDocument();
   expect(screen.getByLabelText(`Priority: ${label}`)).toBeInTheDocument();
 });
+
+test('defaults to Medium when priority is missing', () => {
+  render(<DiscussionPriorityBadge />);
+
+  expect(screen.getByText('Medium')).toBeInTheDocument();
+  expect(screen.getByLabelText('Priority: Medium')).toBeInTheDocument();
+});

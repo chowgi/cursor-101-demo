@@ -1,5 +1,6 @@
 import { HttpResponse, http } from 'msw';
 
+import { normalizeDiscussionPriority } from '@/features/discussions/types/discussion-priority';
 import { env } from '@/config/env';
 
 import { db, persistDb } from '../db';
@@ -60,6 +61,7 @@ export const discussionsHandlers = [
           });
           return {
             ...discussion,
+            priority: normalizeDiscussionPriority(discussion.priority),
             author: author ? sanitizeUser(author) : {},
           };
         });
@@ -118,6 +120,7 @@ export const discussionsHandlers = [
 
         const result = {
           ...discussion,
+          priority: normalizeDiscussionPriority(discussion.priority),
           author: author ? sanitizeUser(author) : {},
         };
 

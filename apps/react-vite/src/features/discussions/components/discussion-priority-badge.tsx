@@ -3,10 +3,13 @@ import { ArrowDown, ArrowUp, Minus } from 'lucide-react';
 import { DiscussionPriority } from '@/types/api';
 import { cn } from '@/utils/cn';
 
-import { PRIORITY_LABELS } from '../types/discussion-priority';
+import {
+  PRIORITY_LABELS,
+  normalizeDiscussionPriority,
+} from '../types/discussion-priority';
 
 export interface DiscussionPriorityBadgeProps {
-  priority: DiscussionPriority;
+  priority?: DiscussionPriority | string | null;
 }
 
 const PRIORITY_STYLES: Record<
@@ -30,8 +33,9 @@ const PRIORITY_STYLES: Record<
 export const DiscussionPriorityBadge = ({
   priority,
 }: DiscussionPriorityBadgeProps) => {
-  const label = PRIORITY_LABELS[priority];
-  const { className, Icon } = PRIORITY_STYLES[priority];
+  const normalizedPriority = normalizeDiscussionPriority(priority);
+  const label = PRIORITY_LABELS[normalizedPriority];
+  const { className, Icon } = PRIORITY_STYLES[normalizedPriority];
 
   return (
     <span
