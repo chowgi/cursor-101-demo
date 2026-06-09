@@ -1,10 +1,12 @@
 name: React Vite CI
+# Disabled for demo — re-enable by restoring the pull_request trigger below.
 on:
-  pull_request:
-    branches: [master]
-    paths:
-      - 'apps/react-vite/**'
-      - '.github/workflows/react-vite-ci.yml'
+  workflow_dispatch:
+  # pull_request:
+  #   branches: [master]
+  #   paths:
+  #     - 'apps/react-vite/**'
+  #     - '.github/workflows/react-vite-ci.yml'
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
